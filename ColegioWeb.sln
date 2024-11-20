@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColegioWeb.api", "ColegioWeb\ColegioWeb.api.csproj", "{796EF81F-E39E-4647-B4BD-0078AE85F124}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColegioWeb.Core", "ColegioWeb.Core\ColegioWeb.Core.csproj", "{285257D8-49AE-42C6-BE97-DBEAFCFB7362}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColegioWeb.Domain", "ColegioWeb.Core\ColegioWeb.Domain.csproj", "{285257D8-49AE-42C6-BE97-DBEAFCFB7362}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColegioWeb.Infrastructure", "ColegioWeb.Infrastructure\ColegioWeb.Infrastructure.csproj", "{0ABA8FE2-8C18-48F4-A398-27F79062423F}"
 EndProject

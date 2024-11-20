@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ColegioWeb.Core\ColegioWeb.Core.csproj" />
+    <ProjectReference Include="..\ColegioWeb.Core\ColegioWeb.Domain.csproj" />
     <ProjectReference Include="..\ColegioWeb.Infrastructure\ColegioWeb.Infrastructure.csproj" />
   </ItemGroup>
 
