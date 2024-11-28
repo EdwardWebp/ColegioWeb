@@ -6,19 +6,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ColegioWeb.Core
+namespace ColegioWeb.Domain
 {
-    public class Asistencia
+    public class Calificaciones
     {
         [Key]
         public int ID { get; set; }
+        [Column(TypeName = "decimal(18, 0)")]
+        public decimal nocalificacion { get; set; }
         public int IDEstudiante { get; set; }
         [ForeignKey("IDEstudiante")]
         public Estudiantes? estudiantesnav { get; set; }
         public int IDasignatura { get; set; }
         [ForeignKey("IDasignatura")]
         public Asignatura? asignaturanav { get; set; }
-        public bool unable { get; set; }
-        public DateTime fecha { get; set; }
+        public string? Literal { get; set; }
     }
 }

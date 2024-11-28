@@ -1,4 +1,4 @@
-﻿using ColegioWeb.Core;
+﻿using ColegioWeb.Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,6 @@ namespace ColegioWeb.Infrastructure.Data
         public DbSet<Asistencia> asistencias { get; set; }
         public DbSet<Calificaciones> calificaciones { get; set; }
         public DbSet<Estudiantes> estudiantes { get; set; }
-        public DbSet<Iterales> iterales { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     => optionsBuilder.UseSqlServer("Server=DESKTOP-FSUML67\\SQLEXPRESS;Database=ColegiWebDB;integrated security=true; TrustServerCertificate=True");
 
