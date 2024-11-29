@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ColegioWeb.Domain.Base_Entity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace ColegioWeb.Domain
 {
-    public class Estudiantes
-    {
-        [Key]
-        public int ID { get; set; }
+    public class Estudiantes: EntityBase
+	{
         [StringLength(50)]
         public string Nombre { get; set; }
         [StringLength(50)]

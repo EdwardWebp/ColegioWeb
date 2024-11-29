@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColegioWeb.Domain", "Colegi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColegioWeb.Core", "ColegioWeb.Core\ColegioWeb.Core.csproj", "{1753D323-354D-4A1D-B5ED-34BE84DD7A2D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColegioWeb.Ui.Client", "ColegioWeb.Ui.Client\ColegioWeb.Ui.Client.csproj", "{5B427326-0FD2-4AF0-BFC9-381BE04D393C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{1753D323-354D-4A1D-B5ED-34BE84DD7A2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1753D323-354D-4A1D-B5ED-34BE84DD7A2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1753D323-354D-4A1D-B5ED-34BE84DD7A2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B427326-0FD2-4AF0-BFC9-381BE04D393C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B427326-0FD2-4AF0-BFC9-381BE04D393C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B427326-0FD2-4AF0-BFC9-381BE04D393C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B427326-0FD2-4AF0-BFC9-381BE04D393C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

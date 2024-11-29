@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ColegioWeb.Core.DTO
+namespace ColegioWeb.Core.DTO.Asistencia
 {
 	public class AsistenciaDTO
 	{
@@ -15,6 +15,7 @@ namespace ColegioWeb.Core.DTO
 		public int IDasignatura { get; set; }
 		public bool unable { get; set; }
 		public DateTime fecha { get; set; }
+		[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}")]
+		public DateTime FechaRegistro { get; set; }
 	}
-}
 }

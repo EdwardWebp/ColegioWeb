@@ -5,13 +5,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ColegioWeb.Domain.Base_Entity;
 
 namespace ColegioWeb.Domain
 {
-    public class Calificaciones
+    public class Calificaciones : EntityBase
     {
-        [Key]
-        public int ID { get; set; }
         [Column(TypeName = "decimal(18, 0)")]
         public decimal nocalificacion { get; set; }
         public int IDEstudiante { get; set; }
@@ -20,6 +19,8 @@ namespace ColegioWeb.Domain
         public int IDasignatura { get; set; }
         [ForeignKey("IDasignatura")]
         public Asignatura? asignaturanav { get; set; }
-        public string? Literal { get; set; }
-    }
+		public string Literal => nocalificacion >= 90 ? "A" :
+							 nocalificacion >= 80 ? "B" :
+							 nocalificacion >= 70 ? "C" : "F";
+	}
 }

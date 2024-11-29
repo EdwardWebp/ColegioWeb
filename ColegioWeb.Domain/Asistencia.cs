@@ -5,13 +5,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ColegioWeb.Domain.Base_Entity;
 
 namespace ColegioWeb.Domain
 {
-    public class Asistencia
-    {
-        [Key]
-        public int ID { get; set; }
+    public class Asistencia : EntityBase
+	{
+        
         public int IDEstudiante { get; set; }
         [ForeignKey("IDEstudiante")]
         public Estudiantes? estudiantesnav { get; set; }
