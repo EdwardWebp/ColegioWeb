@@ -21,6 +21,6 @@ namespace ColegioWeb.Domain
         public Asignatura? asignaturanav { get; set; }
 		public string Literal => nocalificacion >= 90 ? "A" :
 							 nocalificacion >= 80 ? "B" :
-							 nocalificacion >= 70 ? "C" : "F";
+							 nocalificacion >= 70 ? "C" :  "F";
 	}
 }
