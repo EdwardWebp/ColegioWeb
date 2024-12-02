@@ -21,8 +21,8 @@ namespace ColegioWeb.Infrastructure.Mappings
 			CreateMap<Asistencia, AsistenciaDTO>().
 			ForMember(d => d.NombreEstudiante, o => o.MapFrom(c => c.estudiantesnav.Nombre)).
 			ForMember(d => d.NombreAsignatura, o => o.MapFrom(a => a.asignaturanav.Nombre)).ReverseMap();
-			CreateMap<CAsignaturaDTO, Asignatura>();
-			CreateMap<Asignatura, AsistenciaResponDTO>();
+			CreateMap<CAsistenciaDTO, Asistencia>();
+			CreateMap<Asistencia, AsistenciaResponDTO>();
 
 			CreateMap<Estudiantes, EstudianteDTO>().ReverseMap();
 			CreateMap<CEstudiantesDTO, Estudiantes>();

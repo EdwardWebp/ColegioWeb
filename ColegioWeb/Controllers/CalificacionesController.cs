@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ColegioWeb.api.Controllers
 {
+	[Route("api/Calificaciones")]
+	[ApiController]
 	public class CalificacionesController : ControllerBase
 	{
 		private readonly IRepository<Calificaciones> _repository;
@@ -37,7 +39,7 @@ namespace ColegioWeb.api.Controllers
 		}
 
 		[HttpGet("ObtenerCalificacionesPorID/{id}")]
-		public async Task<ActionResult<CalificacionesDTO>> GetArticuloById(int id)
+		public async Task<ActionResult<CalificacionesDTO>> GetCalificacionesById(int id)
 		{
 			// Obtener la calificación por ID, incluyendo las relaciones necesarias
 			var calificacion = await _repository.GetByIdAsync(id,
@@ -59,16 +61,16 @@ namespace ColegioWeb.api.Controllers
 		}
 
 		[HttpPost("CrearCalificaciones")]
-		public async Task<ActionResult<CalificacionesDTO>> CreateArticulo([FromBody] CCalificacionesDTO calificacionesDTO)
+		public async Task<ActionResult<CalificacionesDTO>> CreateCalificaciones([FromBody] CCalificacionesDTO calificacionesDTO)
 		{
 			var calificaciones = _mapper.Map<Calificaciones>(calificacionesDTO);
 			await _repository.AddAsync(calificaciones);
 			var calificacionesDTOs = _mapper.Map<CalificacionesDTO>(calificaciones);
-			return CreatedAtAction(nameof(GetArticuloById), new { id = calificacionesDTOs.ID }, calificacionesDTOs);
+			return CreatedAtAction(nameof(GetCalificacionesById), new { id = calificacionesDTOs.ID }, calificacionesDTOs);
 		}
 
 		[HttpPut("EditarCalificaciones/{id}")]
-		public async Task<IActionResult> UpdateArticulo(int id, [FromBody] CCalificacionesDTO calificacionesDTO)
+		public async Task<IActionResult> UpdateCalificaciones(int id, [FromBody] CCalificacionesDTO calificacionesDTO)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -90,7 +92,7 @@ namespace ColegioWeb.api.Controllers
 		}
 
 		[HttpDelete("EliminarCalificaciones/{id}")]
-		public async Task<ActionResult<bool>> DeleteArticulo(int id)
+		public async Task<ActionResult<bool>> DeleteCalificaciones(int id)
 		{
 			var calificaciones = await _repository.GetByIdAsync(id);
 

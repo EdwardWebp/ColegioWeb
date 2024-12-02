@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ColegioWeb.api.Controllers
 {
+	[Route("api/Estudiante")]
+	[ApiController]
 	public class EstudianteController : ControllerBase
 	{
 		private readonly IRepository<Estudiantes> _repository;
