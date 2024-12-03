@@ -22,6 +22,7 @@ namespace ColegioWeb.Infrastructure.Repositories
 		}
 		public async Task AddAsync(T entity)
 		{
+			entity.Id = 0;
 			_context.Add(entity);
 			await _context.SaveChangesAsync();
 		}

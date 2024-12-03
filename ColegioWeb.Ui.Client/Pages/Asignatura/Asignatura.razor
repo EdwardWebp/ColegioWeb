@@ -1,0 +1,73 @@
+﻿@page "/Asignatura"
+@using ColegioWeb.Core.DTO
+@using ColegioWeb.Core.DTO.Asignatura
+@using ColegioWeb.Ui.Client.Modals
+@using ColegioWeb.Ui.Client.Services
+@inject AsignaturaServices asignaturaservices;
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+
+<h3>Lista de Artículos</h3>
+
+<button class="btn btn-success" @onclick="CrearAsignatura">Agregar Artículo</button>
+
+@if (asignaturas == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Fecha De Registro</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var asignatura in asignaturas)
+            {
+                <tr>
+                    <td>@asignatura.ID</td>
+                    <td>@asignatura.Nombre</td>
+                    <td>@asignatura.Descripción</td>
+                    <td>@asignatura.FechaRegistro</td>
+                    <td>
+                        <button class="btn btn-primary" @onclick="() => EditarAsignatura(asignatura.ID)">Editar</button>
+                        <button class="btn btn-danger" @onclick="() => EliminarAsignatura(asignatura.ID)">Eliminar</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<AsignaturaDTO> asignaturas;
+
+    protected override async Task OnInitializedAsync()
+    {
+        asignaturas = await asignaturaservices.GetAllAsignaturas();
+    }
+    private void CrearAsignatura()
+    {
+        Navigation.NavigateTo("/asignatura/create");
+    }
+
+    private void VerAsignatura(int id)
+    {
+        Navigation.NavigateTo($"/asignatura/{id}");
+    }
+
+    private void EditarAsignatura(int id)
+    {
+        Navigation.NavigateTo($"/asignatura/edit/{id}");
+    }
+
+    private async Task EliminarAsignatura(int id)
+    {
+        await asignaturaservices.DeleteAsignatura(id);
+    }
+}

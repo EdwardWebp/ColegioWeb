@@ -19,8 +19,16 @@ namespace ColegioWeb.Domain
         public int IDasignatura { get; set; }
         [ForeignKey("IDasignatura")]
         public Asignatura? asignaturanav { get; set; }
-		public string Literal => nocalificacion >= 90 ? "A" :
-							 nocalificacion >= 80 ? "B" :
-							 nocalificacion >= 70 ? "C" :  "F";
+		public string Literal {
+        get
+            {
+                if (nocalificacion >= 90) return "A";
+                else if (nocalificacion >= 80) return "B";
+                else if (nocalificacion >= 70) return "C";
+                else 
+                    return "F";
+            }
+
+        }
 	}
 }

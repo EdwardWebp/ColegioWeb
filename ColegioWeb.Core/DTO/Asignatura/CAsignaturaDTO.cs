@@ -8,7 +8,6 @@ namespace ColegioWeb.Core.DTO.Asignatura
 {
 	public class CAsignaturaDTO
 	{
-		public int ID { get; set; }
 		public string Nombre { get; set; }
 		public string Descripción { get; set; }
 

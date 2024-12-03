@@ -4,6 +4,7 @@ using ColegioWeb.Infrastructure.Data;
 using ColegioWeb.Infrastructure.Mappings;
 using ColegioWeb.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using System.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,18 +19,17 @@ builder.Services.AddScoped<IRepository<Estudiantes>, RepositoryEstudiante>();
 builder.Services.AddScoped<IRepository<Asignatura>, RepositoryAsignatura>();
 builder.Services.AddScoped<IRepository<Asistencia>, RepositoryAsistencia>();
 builder.Services.AddScoped<IRepository<Calificaciones>, RepositoryCalificaciones>();
-
 builder.Services.AddAutoMapper(typeof(MappingProfile));
+
 
 builder.Services.AddCors(options =>
 {
-	options.AddDefaultPolicy(builder =>
-	{
-		builder.WithOrigins("https://localhost:7224")
-			   .AllowAnyHeader()
-			   .AllowAnyMethod();
-	});
+	options.AddPolicy("PoliticaAPI",
+		builder => builder.AllowAnyOrigin()
+						  .AllowAnyHeader()
+						  .AllowAnyMethod());
 });
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -49,12 +49,10 @@ app.UseRouting();
 
 app.UseCors();
 app.UseAuthorization();
-
 app.UseEndpoints(endpoint =>
 {
 	endpoint.MapControllers();
 });
-
+app.UseCors("PoliticaAPI");
 app.MapControllers();
-
 app.Run();

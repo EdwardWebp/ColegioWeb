@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ColegioWeb.api.Controllers
 {
-	[Route("api/Asignatura")]
+	[Route("api/[controller]")]
 	[ApiController]
 	public class AsignaturaController : ControllerBase
 	{
@@ -20,7 +20,8 @@ namespace ColegioWeb.api.Controllers
 			_logger = logger;
 		}
 
-		[HttpGet("ObtenerAsignatura")]
+		[HttpGet]
+		[Route("ObtenerAsignatura")]
 		public async Task<ActionResult<IEnumerable<AsignaturaDTO>>> GetAllAsignatura()
 		{
 			var asignaturas = await _repository.GetAllAsync();
@@ -28,7 +29,8 @@ namespace ColegioWeb.api.Controllers
 			return Ok(asignaturasdto);
 		}
 
-		[HttpGet("ObtenerAsignaturaID/{id}")]
+		[HttpGet]
+		[Route("ObtenerAsignaturaID/{id}")]
 		public async Task<ActionResult<AsignaturaDTO>> GetAsignaturanById(int id)
 		{
 			var asignatura = await _repository.GetByIdAsync(id);
@@ -51,7 +53,7 @@ namespace ColegioWeb.api.Controllers
 			return CreatedAtAction(nameof(GetAsignaturanById), new { id = asignaturaDTOs.ID }, asignaturaDTOs);
 		}
 
-		[HttpPut("EditarAsignatura/{id}")]
+		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateAsignatura(int id, [FromBody] CAsignaturaDTO asignaturaDTO)
 		{
 			if (!ModelState.IsValid)
