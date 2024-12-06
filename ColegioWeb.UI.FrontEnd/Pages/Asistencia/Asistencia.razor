@@ -1,0 +1,115 @@
+﻿@page "/Asistencia"
+@using ColegioWeb.Core.DTO.Asistencia
+@using ColegioWeb.UI.FrontEnd.Services
+@using ColegioWeb.UI.FrontEnd
+@inject SweetAlertService Swal
+@inject AsistenciaServices asisteciaServices;
+@inject NavigationManager navigation
+
+
+<div class="container">
+    <h3><strong>Asistenica</strong></h3>
+
+    <div class="NewRegister">
+        <button @onclick="CrearAsistencia" class=" NuevoRegistro btn btn-primary mb-3">Registrar Nuevo</button>
+    </div>
+
+    <input type="text" @bind="searchText" @oninput="FilterAsistencia" placeholder="Buscar Asistenica (por (Nombre, Descripcion)" class="form-control search-bar mb-3" />
+
+    @if (asistencias == null)
+    {
+        <p><em>Cargando... Por favor, Espere</em></p>
+    }
+    else
+    {
+        <div class="table-container">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre del Estudiante</th>
+                        <th>Nombre de Asignatura</th>
+                        <th>Asistencia</th>
+                        <th>Fecha</th>
+                        <th>Fecha de Registro</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var asistencia in asistencias)
+                    {
+                        <tr>
+                            <td>@asistencia.NombreEstudiante</td>
+                            <td>@asistencia.NombreAsignatura</td>
+                            <td>@asistencia.estadolirycs</td>
+                            <td>@asistencia.fecha</td>
+                            <td>@asistencia.FechaRegistro</td>
+                            <td>
+                                <button class="btn btn-primary" @onclick="() => EditarAsistencia(asistencia.ID)">Editar</button>
+                                <button class="btn btn-danger" @onclick="() => EliminarAsistencia(asistencia.ID)">Eliminar</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@code {
+    private IEnumerable<AsistenciaDTO>? asistencias;
+    private IEnumerable<AsistenciaDTO>? FilteredAsistencias;
+    private string searchText = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        asistencias = await asisteciaServices.GetAllAsistencia();
+        FilteredAsistencias = asistencias;
+    }
+    private void CrearAsistencia()
+    {
+        navigation.NavigateTo("/Asistencia/create");
+    }
+
+    private void EditarAsistencia(int id)
+    {
+        navigation.NavigateTo($"/Asistencia/edit/{id}");
+    }
+
+    private async Task EliminarAsistencia(int id)
+    {
+        var result = await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "¿Estás seguro de que quieres eliminar la Asistencia?",
+                Text = "No podrás revertir esto",
+                Icon = SweetAlertIcon.Warning,
+                ShowCancelButton = true,
+                ConfirmButtonText = "Sí, eliminar",
+                CancelButtonText = "No, cancelar"
+
+            });
+        if (!string.IsNullOrEmpty(result.Value))
+        {
+
+            await asisteciaServices.DeleteAsistencia(id);
+            asistencias = await asisteciaServices.GetAllAsistencia();
+            FilterAsistencia();
+        }
+    }
+
+
+    private void FilterAsistencia()
+    {
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            FilteredAsistencias = asistencias;
+        }
+        else
+        {
+            FilteredAsistencias = asistencias?.Where(p =>
+                p.NombreEstudiante.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                p.NombreAsignatura.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                p.estadolirycs.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                p.fecha.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                p.FechaRegistro.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase));
+        }
+    }
+}

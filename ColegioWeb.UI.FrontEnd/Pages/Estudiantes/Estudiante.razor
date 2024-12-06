@@ -1,0 +1,131 @@
+﻿@page "/Estudiante"
+@using ColegioWeb.Core.DTO
+@using ColegioWeb.Core.DTO.Estudiantes
+@using ColegioWeb.UI.FrontEnd.Services
+@inject EstudiantesServices estudianteservices;
+@inject NavigationManager Navigation
+@inject SweetAlertService Swal
+@inject IJSRuntime JSRuntime
+<div class="container">
+    <h3><strong>Estudiantes</strong></h3>
+
+    <div class="NewRegister">
+        <button @onclick="CrearEstudiantes" class=" NuevoRegistro btn btn-primary mb-3">Registrar Nuevo</button>
+    </div>
+
+<div class="search-container mb-3">
+    <input type="text" @bind="searchText" @oninput="FilterEstudiante"
+               placeholder="Buscar Estudiante (por Nombre, Apellido o Matricula)" class="form-control search-bar mb-3" />
+    <i class="fas fa-search search-icon"></i>
+</div>
+
+@if (estudiantes == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+   <div class ="table-container">
+            <table class ="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Matricula</th>
+                <th>Direccion</th>
+                <th>Descripción</th>
+                <th>Fecha De Registro</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var estudiante in estudiantes)
+            {
+                <tr>
+                    <td>@estudiante.ID</td>
+                    <td>@estudiante.Nombre</td>
+                    <td>@estudiante.Apellido</td>
+                    <td>@estudiante.Matricula</td>
+                    <td>@estudiante.Direccion</td>
+                    <td>@estudiante.Descripción</td>
+                    <td>@estudiante.FechaRegistro</td>
+                    <td>
+                        <button class="btn btn-primary" @onclick="() => EditarEstudiantes(estudiante.ID)">Editar</button>
+                        <button class="btn btn-danger" @onclick="() => EliminarEstudiantes(estudiante.ID)">Eliminar</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    </div>
+}
+</div>
+
+@code {
+    private IEnumerable<EstudianteDTO> estudiantes;
+    private IEnumerable<EstudianteDTO>? Filteredestudiantes;
+    private string searchText = string.Empty;
+    protected override async Task OnInitializedAsync()
+    {
+        estudiantes = await estudianteservices.GetAllEstudianteAsync();
+    }
+    private void CrearEstudiantes()
+    {
+        Navigation.NavigateTo("/Estudiante/create");
+    }
+
+    private void VerEstudiantes(int id)
+    {
+        Navigation.NavigateTo($"/Estudiante/{id}");
+    }
+
+    private void EditarEstudiantes(int id)
+    {
+        Navigation.NavigateTo($"/Estudiante/edit/{id}");
+    }
+
+    private async Task EliminarEstudiantes(int id)
+    {
+        var result = await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "¿Estás seguro?",
+                Text = "No podrás revertir esto",
+                Icon = SweetAlertIcon.Warning,
+                ShowCancelButton = true,
+                ConfirmButtonText = "Sí, eliminar",
+                CancelButtonText = "No, cancelar"
+
+            });
+        if (!string.IsNullOrEmpty(result.Value))
+        {
+        await estudianteservices.DeleteEstudiante(id);
+        estudiantes = await estudianteservices.GetAllEstudianteAsync();
+        FilterEstudiante();
+        }
+    }
+    private void FilterEstudiante()
+
+    {
+
+        if (string.IsNullOrWhiteSpace(searchText))
+
+        {
+
+            Filteredestudiantes = estudiantes;
+
+        }
+        else
+
+        {
+
+            Filteredestudiantes = estudiantes?.Where(p =>
+
+                p.Nombre.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                p.Apellido.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                p.Matricula.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                p.Direccion.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                p.Descripción.Contains(searchText, StringComparison.OrdinalIgnoreCase));
+        }
+
+    }
+}

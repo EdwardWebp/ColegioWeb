@@ -19,7 +19,7 @@ namespace ColegioWeb.Infrastructure.Data
         public DbSet<Asignatura> asignaturas { get; set; }
         public DbSet<Asistencia> asistencias { get; set; }
         public DbSet<Calificaciones> calificaciones { get; set; }
-        public DbSet<Estudiantes> estudiantes { get; set; }
+        public DbSet<Estudiante> estudiantes { get; set; }
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
@@ -37,7 +37,7 @@ namespace ColegioWeb.Infrastructure.Data
 			});
 
 			// Configuración para Estudiantes
-			modelBuilder.Entity<Estudiantes>(tb =>
+			modelBuilder.Entity<Estudiante>(tb =>
 			{
 				tb.HasKey(col => col.Id);
 				tb.Property(col => col.Nombre)
@@ -59,7 +59,7 @@ namespace ColegioWeb.Infrastructure.Data
 			modelBuilder.Entity<Asistencia>(tb =>
 			{
 				tb.HasKey(col => col.Id);
-				tb.Property(col => col.unable)
+				tb.Property(col => col.estado)
 				  .IsRequired();
 				tb.Property(col => col.fecha)
 				  .IsRequired();

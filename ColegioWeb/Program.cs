@@ -15,7 +15,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(op =>
 });
 // Add services to the container.
 //
-builder.Services.AddScoped<IRepository<Estudiantes>, RepositoryEstudiante>();
+builder.Services.AddScoped<IRepository<Estudiante>, RepositoryEstudiante>();
 builder.Services.AddScoped<IRepository<Asignatura>, RepositoryAsignatura>();
 builder.Services.AddScoped<IRepository<Asistencia>, RepositoryAsistencia>();
 builder.Services.AddScoped<IRepository<Calificaciones>, RepositoryCalificaciones>();
@@ -24,12 +24,13 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddCors(options =>
 {
-	options.AddPolicy("PoliticaAPI",
-		builder => builder.AllowAnyOrigin()
-						  .AllowAnyHeader()
-						  .AllowAnyMethod());
+options.AddPolicy("AllowLocalhost", policy =>
+{
+policy.WithOrigins("https://localhost:7198")
+	  .AllowAnyHeader()
+	  .AllowAnyMethod();
 });
-
+});
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -43,7 +44,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors("AllowLocalhost");
 app.UseHttpsRedirection();
 app.UseRouting();
 
@@ -53,6 +54,6 @@ app.UseEndpoints(endpoint =>
 {
 	endpoint.MapControllers();
 });
-app.UseCors("PoliticaAPI");
+
 app.MapControllers();
 app.Run();

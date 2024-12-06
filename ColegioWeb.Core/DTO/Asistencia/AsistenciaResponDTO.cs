@@ -8,10 +8,9 @@ namespace ColegioWeb.Core.DTO.Asistencia
 {
 	public class AsistenciaResponDTO
 	{
-		public int ID { get; set; }
 		public int IDEstudiante { get; set; }
 		public int IDasignatura { get; set; }
-		public bool unable { get; set; }
+		public int estado { get; set; }
 		public DateTime fecha { get; set; }
 	}
 }

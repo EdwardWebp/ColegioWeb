@@ -6,21 +6,22 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ColegioWeb.api.Controllers
 {
-	[Route("api/Estudiante")]
+	[Route("api/[controller]")]
 	[ApiController]
 	public class EstudianteController : ControllerBase
 	{
-		private readonly IRepository<Estudiantes> _repository;
+		private readonly IRepository<Estudiante> _repository;
 		private readonly IMapper _mapper;
 		private readonly ILogger<EstudianteController> _logger;
-		public EstudianteController(IRepository<Estudiantes> repository, IMapper mapper, ILogger<EstudianteController> logger)
+		public EstudianteController(IRepository<Estudiante> repository, IMapper mapper, ILogger<EstudianteController> logger)
 		{
 			_repository = repository;
 			_mapper = mapper;
 			_logger = logger;
 		}
 
-		[HttpGet("ObtenerEstudiante")]
+		[HttpGet]
+		[Route("ObtenerEstudiante")]
 		public async Task<ActionResult<IEnumerable<EstudianteDTO>>> GetAllEstudiante()
 		{
 			var estudiante = await _repository.GetAllAsync();
@@ -28,7 +29,8 @@ namespace ColegioWeb.api.Controllers
 			return Ok(estudiantesdto);
 		}
 
-		[HttpGet("ObtenerEstudianteID/{id}")]
+		[HttpGet]
+		[Route("ObtenerEstudianteID/{id}")]
 		public async Task<ActionResult<EstudianteDTO>> GetEstudianteById(int id)
 		{
 			var estudiante = await _repository.GetByIdAsync(id);
@@ -43,16 +45,16 @@ namespace ColegioWeb.api.Controllers
 		}
 
 		[HttpPost("CrearEstudiante")]
-		public async Task<ActionResult<EstudianteDTO>> CreateEstudiante([FromBody] CEstudiantesDTO estudianteDTO)
+		public async Task<ActionResult<EstudianteDTO>> CreateEstudiante([FromBody] CEstudianteDTO estudianteDTO)
 		{
-			var estudiante = _mapper.Map<Estudiantes>(estudianteDTO);
+			var estudiante = _mapper.Map<Estudiante>(estudianteDTO);
 			await _repository.AddAsync(estudiante);
 			var estudianteDTOs = _mapper.Map<EstudianteDTO>(estudiante);
 			return CreatedAtAction(nameof(GetEstudianteById), new { id = estudianteDTOs.ID }, estudianteDTOs);
 		}
 
-		[HttpPut("EditarEstudiante/{id}")]
-		public async Task<IActionResult> UpdateEstudiante(int id, [FromBody] CEstudiantesDTO estudianteDTO)
+		[HttpPut("{id}")]
+		public async Task<IActionResult> UpdateEstudiante(int id, [FromBody] CEstudianteDTO estudianteDTO)
 		{
 			if (!ModelState.IsValid)
 			{

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ColegioWeb.api.Controllers
 {
-	[Route("api/Calificaciones")]
+	[Route("api/[Controller]")]
 	[ApiController]
 	public class CalificacionesController : ControllerBase
 	{
@@ -20,7 +20,8 @@ namespace ColegioWeb.api.Controllers
 			_logger = logger;
 		}
 
-		[HttpGet("ObtenerCalificaciones")]
+		[HttpGet]
+		[Route("ObtenerCalificaciones")]
 		public async Task<ActionResult<IEnumerable<CalificacionesDTO>>> GetAllCalificaciones()
 		{
 			// Obtener todas las calificaciones que no están eliminadas, incluyendo las relaciones necesarias
@@ -38,7 +39,8 @@ namespace ColegioWeb.api.Controllers
 			return Ok(calificacionesDtos);
 		}
 
-		[HttpGet("ObtenerCalificacionesPorID/{id}")]
+		[HttpGet]
+		[Route("ObtenerCalificacionesPorID/{id}")]
 		public async Task<ActionResult<CalificacionesDTO>> GetCalificacionesById(int id)
 		{
 			// Obtener la calificación por ID, incluyendo las relaciones necesarias
@@ -69,7 +71,7 @@ namespace ColegioWeb.api.Controllers
 			return CreatedAtAction(nameof(GetCalificacionesById), new { id = calificacionesDTOs.ID }, calificacionesDTOs);
 		}
 
-		[HttpPut("EditarCalificaciones/{id}")]
+		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateCalificaciones(int id, [FromBody] CCalificacionesDTO calificacionesDTO)
 		{
 			if (!ModelState.IsValid)

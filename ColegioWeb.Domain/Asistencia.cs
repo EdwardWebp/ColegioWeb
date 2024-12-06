@@ -11,14 +11,28 @@ namespace ColegioWeb.Domain
 {
     public class Asistencia : EntityBase
 	{
-        
+	
         public int IDEstudiante { get; set; }
         [ForeignKey("IDEstudiante")]
-        public Estudiantes? estudiantesnav { get; set; }
+        public Estudiante? estudiantesnav { get; set; }
         public int IDasignatura { get; set; }
         [ForeignKey("IDasignatura")]
         public Asignatura? asignaturanav { get; set; }
-        public bool unable { get; set; }
-        public DateTime fecha { get; set; }
-    }
+        public int estado { get; set; }
+
+        public string estadolirycs
+		{
+			get
+			{
+				if (estado == 1) return "Presente";
+				else if (estado == 2) return "Ausente";
+				else if (estado == 3) return "Excusa";
+				else
+					return "Desconocido";
+			}
+			  }
+		
+		public DateTime fecha { get; set; } 
+
+	}
 }

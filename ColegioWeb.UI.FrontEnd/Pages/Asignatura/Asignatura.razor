@@ -1,0 +1,123 @@
+﻿@page "/Asignatura"
+@using ColegioWeb.Core.DTO
+@using ColegioWeb.Core.DTO.Asignatura
+@using ColegioWeb.UI.FrontEnd.Services
+@inject SweetAlertService Swal
+@inject AsignaturaServices asignaturaservices;
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+
+<div class="container">
+    <h3>Lista de Asignatura</h3>
+    <div class="NewRegister">
+        <button class="NuevoRegistro btn btn-primary mb-3" @onclick="CrearAsignatura">Agregar Asignatura</button>
+    </div>
+
+    <div class="search-container mb-3">
+        <input type="text" @bind="searchText" @oninput="FilterAsignatura"
+        placeholder="Buscar Asignatura (por Nombre, Descripción)" class="form-control search-bar mb-3" />
+        <i class="fas fa-search search-icon"></i>
+    </div>
+
+    @if (asignaturas == null)
+    {
+        <p><em>Cargando...</em></p>
+    }
+    else
+    {
+        <div class ="table-container">
+            <table class ="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Fecha De Registro</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var asignatura in asignaturas)
+                    {
+                        <tr>
+                            <td>@asignatura.ID</td>
+                            <td>@asignatura.Nombre</td>
+                            <td>@asignatura.Descripción</td>
+                            <td>@asignatura.FechaRegistro</td>
+                            <td>
+                                <button class="btn btn-primary" @onclick="() => EditarAsignatura(asignatura.ID)">Editar</button>
+                                <button class="btn btn-danger" @onclick="() => EliminarAsignatura(asignatura.ID)">Eliminar</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@code {
+    private IEnumerable<AsignaturaDTO> asignaturas;
+    private IEnumerable<AsignaturaDTO>? FilteredAsignatura;
+    private string searchText = string.Empty;
+    protected override async Task OnInitializedAsync()
+    {
+        asignaturas = await asignaturaservices.GetAllAsignaturas();
+    }
+    private void CrearAsignatura()
+    {
+        Navigation.NavigateTo("/asignatura/create");
+    }
+
+    private void VerAsignatura(int id)
+    {
+        Navigation.NavigateTo($"/asignatura/{id}");
+    }
+
+    private void EditarAsignatura(int id)
+    {
+        Navigation.NavigateTo($"/asignatura/edit/{id}");
+    }
+
+    private async Task EliminarAsignatura(int id)
+    {
+        var result = await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "¿Estás seguro de que quieres eliminar la Asistencia?",
+                Text = "No podrás revertir esto",
+                Icon = SweetAlertIcon.Warning,
+                ShowCancelButton = true,
+                ConfirmButtonText = "Sí, eliminar",
+                CancelButtonText = "No, cancelar"
+
+            });
+        if (!string.IsNullOrEmpty(result.Value))
+        {
+            await asignaturaservices.DeleteAsignatura(id);
+            asignaturas = await asignaturaservices.GetAllAsignaturas();
+            FilterAsignatura();
+        }
+    }
+    private void FilterAsignatura()
+
+    {
+
+        if (string.IsNullOrWhiteSpace(searchText))
+
+        {
+
+            FilteredAsignatura = asignaturas;
+
+        }
+
+        else
+
+        {
+
+            FilteredAsignatura = asignaturas?.Where(p =>
+
+                p.Nombre.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                p.Descripción.Contains(searchText, StringComparison.OrdinalIgnoreCase));
+        }
+
+    }
+}

@@ -8,7 +8,6 @@ namespace ColegioWeb.Core.DTO.Calificaciones
 {
 	public class CCalificacionesDTO
 	{
-		public int ID { get; set; }
 		public decimal nocalificacion { get; set; }
 		public int IDEstudiante { get; set; }
 		public int IDasignatura { get; set; }

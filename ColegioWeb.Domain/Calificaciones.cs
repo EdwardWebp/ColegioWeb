@@ -15,7 +15,7 @@ namespace ColegioWeb.Domain
         public decimal nocalificacion { get; set; }
         public int IDEstudiante { get; set; }
         [ForeignKey("IDEstudiante")]
-        public Estudiantes? estudiantesnav { get; set; }
+        public Estudiante? estudiantesnav { get; set; }
         public int IDasignatura { get; set; }
         [ForeignKey("IDasignatura")]
         public Asignatura? asignaturanav { get; set; }

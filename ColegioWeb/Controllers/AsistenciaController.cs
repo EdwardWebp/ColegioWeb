@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ColegioWeb.api.Controllers
 {
-	[Route("api/Asistencia")]
+	[Route("api/[Controller]")]
 	[ApiController]
 	public class AsistenciaController : Controller
 	{
@@ -20,7 +20,8 @@ namespace ColegioWeb.api.Controllers
 			_logger = logger;
 		}
 
-		[HttpGet("ObtenerAsistencia")]
+		[HttpGet]
+		[Route("ObtenerAsistencia")]
 		public async Task<ActionResult<IEnumerable<AsistenciaDTO>>> GetAllAsistencia()
 		{
 			// Obtener todas las Asistencia que no están eliminadas, incluyendo las relaciones necesarias
@@ -38,7 +39,8 @@ namespace ColegioWeb.api.Controllers
 			return Ok(asistenciaDto);
 		}
 
-		[HttpGet("ObtenerAsistenciaPorID/{id}")]
+		[HttpGet]
+		[Route("ObtenerAsistenciaPorID/{id}")]
 		public async Task<ActionResult<AsistenciaDTO>> GetAsistenciaById(int id)
 		{
 			// Obtener la Asistencia por ID, incluyendo las relaciones necesarias
@@ -69,7 +71,7 @@ namespace ColegioWeb.api.Controllers
 			return CreatedAtAction(nameof(GetAsistenciaById), new { id = AsitenciaDTOs.ID }, AsitenciaDTOs);
 		}
 
-		[HttpPut("EditarAsistencia/{id}")]
+		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateAsistencia(int id, [FromBody] CAsistenciaDTO AsistenciaDTO)
 		{
 			if (!ModelState.IsValid)

@@ -76,11 +76,11 @@ namespace ColegioWeb.Infrastructure.Migrations
                     b.Property<int>("IDasignatura")
                         .HasColumnType("int");
 
+                    b.Property<int>("estado")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("fecha")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("unable")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -123,7 +123,7 @@ namespace ColegioWeb.Infrastructure.Migrations
                     b.ToTable("Calificaciones", (string)null);
                 });
 
-            modelBuilder.Entity("ColegioWeb.Domain.Estudiantes", b =>
+            modelBuilder.Entity("ColegioWeb.Domain.Estudiante", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -149,7 +149,7 @@ namespace ColegioWeb.Infrastructure.Migrations
                     b.Property<bool>("Eliminado")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("EstudiantesId")
+                    b.Property<int?>("EstudianteId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("FechaRegistro")
@@ -167,7 +167,7 @@ namespace ColegioWeb.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EstudiantesId");
+                    b.HasIndex("EstudianteId");
 
                     b.ToTable("Estudiantes", (string)null);
                 });
@@ -181,7 +181,7 @@ namespace ColegioWeb.Infrastructure.Migrations
 
             modelBuilder.Entity("ColegioWeb.Domain.Asistencia", b =>
                 {
-                    b.HasOne("ColegioWeb.Domain.Estudiantes", "estudiantesnav")
+                    b.HasOne("ColegioWeb.Domain.Estudiante", "estudiantesnav")
                         .WithMany()
                         .HasForeignKey("IDEstudiante")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -200,7 +200,7 @@ namespace ColegioWeb.Infrastructure.Migrations
 
             modelBuilder.Entity("ColegioWeb.Domain.Calificaciones", b =>
                 {
-                    b.HasOne("ColegioWeb.Domain.Estudiantes", "estudiantesnav")
+                    b.HasOne("ColegioWeb.Domain.Estudiante", "estudiantesnav")
                         .WithMany()
                         .HasForeignKey("IDEstudiante")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -217,11 +217,11 @@ namespace ColegioWeb.Infrastructure.Migrations
                     b.Navigation("estudiantesnav");
                 });
 
-            modelBuilder.Entity("ColegioWeb.Domain.Estudiantes", b =>
+            modelBuilder.Entity("ColegioWeb.Domain.Estudiante", b =>
                 {
-                    b.HasOne("ColegioWeb.Domain.Estudiantes", null)
+                    b.HasOne("ColegioWeb.Domain.Estudiante", null)
                         .WithMany("estudiantes")
-                        .HasForeignKey("EstudiantesId");
+                        .HasForeignKey("EstudianteId");
                 });
 
             modelBuilder.Entity("ColegioWeb.Domain.Asignatura", b =>
@@ -229,7 +229,7 @@ namespace ColegioWeb.Infrastructure.Migrations
                     b.Navigation("asignaturas");
                 });
 
-            modelBuilder.Entity("ColegioWeb.Domain.Estudiantes", b =>
+            modelBuilder.Entity("ColegioWeb.Domain.Estudiante", b =>
                 {
                     b.Navigation("estudiantes");
                 });

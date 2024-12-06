@@ -1,0 +1,113 @@
+﻿@page "/Calificaciones"
+@using ColegioWeb.Core.DTO.Calificaciones
+@using ColegioWeb.UI.FrontEnd.Services
+@using ColegioWeb.UI.FrontEnd
+@inject SweetAlertService Swal
+@inject CalificacionesServices calificacionesServices;
+@inject NavigationManager navigation
+
+
+<div class="container">
+    <h3><strong>Calificaciones</strong></h3>
+
+    <div class="NewRegister">
+        <button @onclick="CrearAsistencia" class=" NuevoRegistro btn btn-primary mb-3">Registrar Nuevo</button>
+    </div>
+
+    <input type="text" @bind="searchText" @oninput="FilterCalificaciones" placeholder="Buscar Calificacion (por (Nombre de Estudiante, Nombre de la asignatura)" class="form-control search-bar mb-3" />
+
+    @if (calificaciones == null)
+    {
+        <p><em>Cargando... Por favor, Espere</em></p>
+    }
+    else
+    {
+        <div class="table-container">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre del Estudiante</th>
+                        <th>Nombre de Asignatura</th>
+                        <th>Calificacion</th>
+                        <th>Literal</th>
+                        <th>Fecha de Registro</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var calificaciones in calificaciones)
+                    {
+                        <tr>
+                            <td>@calificaciones.NombreEstudiante</td>
+                            <td>@calificaciones.NombreAsignatura</td>
+                            <td>@calificaciones.nocalificacion</td>
+                            <td>@calificaciones.Literal</td>
+                            <td>@calificaciones.FechaRegistro</td>
+                            <td>
+                                <button class="btn btn-primary" @onclick="() => EditarAsistencia(calificaciones.ID)">Editar</button>
+                                <button class="btn btn-danger" @onclick="() => EliminarAsistencia(calificaciones.ID)">Eliminar</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@code {
+    private IEnumerable<CalificacionesDTO>? calificaciones;
+    private IEnumerable<CalificacionesDTO>? FilteredCalificaciones;
+    private string searchText = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        calificaciones = await calificacionesServices.GetAllCalificaciones();
+        FilteredCalificaciones = calificaciones;
+    }
+    private void CrearAsistencia()
+    {
+        navigation.NavigateTo("/Calificaciones/create");
+    }
+
+    private void EditarAsistencia(int id)
+    {
+        navigation.NavigateTo($"/Calificaciones/edit/{id}");
+    }
+
+    private async Task EliminarAsistencia(int id)
+    {
+        var result = await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "¿Estás seguro?",
+                Text = "No podrás revertir esto",
+                Icon = SweetAlertIcon.Warning,
+                ShowCancelButton = true,
+                ConfirmButtonText = "Sí, eliminar",
+                CancelButtonText = "No, cancelar"
+
+            });
+        if (!string.IsNullOrEmpty(result.Value))
+        {
+            await calificacionesServices.DeleteCalificaciones(id);
+            calificaciones = await calificacionesServices.GetAllCalificaciones();
+            FilterCalificaciones();
+        }
+    }
+
+    private void FilterCalificaciones()
+    {
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            FilteredCalificaciones = calificaciones;
+        }
+        else
+        {
+            FilteredCalificaciones = calificaciones?.Where(p =>
+                p.NombreEstudiante.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                p.NombreAsignatura.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                p.nocalificacion.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                p.Literal.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                p.FechaRegistro.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase));
+        }
+    }
+}

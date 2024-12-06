@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ColegioWeb.Infrastructure.Repositories
 {
-	public class RepositoryEstudiante : RepositoryBase <Estudiantes>
+	public class RepositoryEstudiante : RepositoryBase <Estudiante>
 	{
 		private readonly ApplicationDbContext _context;
 

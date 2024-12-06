@@ -1,5 +1,4 @@
 ﻿using ColegioWeb.Core.DTO.Asignatura;
-using ColegioWeb.Ui.Client.Modals;
 using System.Net.Http.Json;
 using System.Text.Json;
 
@@ -32,15 +31,15 @@ namespace ColegioWeb.Ui.Client.Services
 				return Enumerable.Empty<AsignaturaDTO>(); // O devolver un valor predeterminado
 			}
 		}
-		public async Task<AsignaturaItem> GetAsignaturaById(int id)
+		public async Task<AsignaturaDTO> GetAsignaturaById(int id)
 		{
-			return await _httpClient.GetFromJsonAsync<AsignaturaItem>($"api/Asignatura/ObtenerAsignaturaID/{id}");
+			return await _httpClient.GetFromJsonAsync<AsignaturaDTO>($"api/Asignatura/ObtenerAsignaturaID/{id}");
 		}
-		public async Task CreateAsignatura(AsignaturaItem Asignatura)
+		public async Task CreateAsignatura(AsignaturaDTO Asignatura)
 		{
 			await _httpClient.PostAsJsonAsync("api/Asignatura/CrearAsignatura", Asignatura);
 		}
-		public async Task UpdateAsignaturaAsync(int id, AsignaturaItem asignatura)
+		public async Task UpdateAsignaturaAsync(int id, AsignaturaDTO asignatura)
 		{
 			await _httpClient.PutAsJsonAsync($"api/Articulo/{id}", asignatura);
 

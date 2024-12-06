@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ColegioWeb.Domain
 {
-    public class Estudiantes: EntityBase
+    public class Estudiante: EntityBase
 	{
         [StringLength(50)]
         public string Nombre { get; set; }
@@ -20,6 +20,6 @@ namespace ColegioWeb.Domain
         public string Direccion { get; set; }
         public string Descripción { get; set; }
 
-        public List<Estudiantes> estudiantes { get; set; } = new List<Estudiantes>();
+        public List<Estudiante> estudiantes { get; set; } = new List<Estudiante>();
     }
 }
